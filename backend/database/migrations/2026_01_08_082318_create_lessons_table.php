@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string("video_url");
             $table->integer("order")->default(1);
             $table->timestamps();
-            
         });
     }
 
