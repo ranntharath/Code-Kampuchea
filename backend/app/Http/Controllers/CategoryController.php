@@ -61,9 +61,7 @@ class CategoryController extends Controller
             ], 200);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'message' => 'Category not found'
-            ], 404);
+            
 
         } catch (\Throwable $th) {
             return response()->json([

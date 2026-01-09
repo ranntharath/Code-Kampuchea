@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->text("description");
+            $table->string("thumbnail");
             $table->decimal('price', 10, 2);
             $table->unsignedTinyInteger('discount_percent')->default(0);
             $table->boolean("is_free")->default(false);
