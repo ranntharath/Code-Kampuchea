@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,14 +13,17 @@ class UserController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        try {
+            $users = User::all();
+            return response()->json([
+                "message"=>"get users success",
+                "users"=>$users
+            ],200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'error'=> $th->getMessage()
+            ],500);
+        }
     }
 
     /**
@@ -28,6 +32,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+       
     }
 
     /**
