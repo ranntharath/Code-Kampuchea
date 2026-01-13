@@ -14,7 +14,10 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
     
-    public function lesson(){
+    public function lessons(){
         return $this->hasMany(Lesson::class)->orderBy('order', 'asc');
+    }
+    public function orders(){
+        return $this->hasMany(Order::class);
     }
 }

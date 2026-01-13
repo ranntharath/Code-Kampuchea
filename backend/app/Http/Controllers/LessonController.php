@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -52,23 +53,22 @@ class LessonController extends Controller
         }
     }
     // get course and lesson in that course
-    public function getCourse($id){
-        try {
-            $course = Course::with('lesson')->find($id);
+    public function getCourseLesson($id){
+         try {
+        $course = Course::with('lessons')->findOrFail($id);
 
+        return response()->json([
+            'success' => true,
+            'message' => 'get course successfully',
+            'course' => $course
+        ], 200);
 
-            return response()->json([
-                "success"=>true,
-                "message"=>"get course successfully",
-                "course"=>$course
-            ],200);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json([
-                "success"=>false,
-                "error"=>$th->getMessage()
-            ],500);
-        }
+    } catch (\Throwable $th) {
+        return response()->json([
+            'success' => false,
+            'error' => $th->getMessage()
+        ], 500);
+    }
     }
     // update lesson by id
     public function update(Request $request,$id){

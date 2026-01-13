@@ -69,7 +69,8 @@ Route::middleware(['auth:api', 'role:admin'])->group(function() {
  * Protect Route
  * User
  */
-// Route::middleware("auth:api")->group(function(){
-//     Route::get('/courses/{id}/lessons',[LessonController::class,"getCourse"]);
-// });
-    Route::get('/courses/{id}/lessons',[LessonController::class,"getCourse"]);  
+Route::middleware(['auth:api', 'course.access'])->group(function () {
+    Route::get('/courses/{course_id}/lessons', [LessonController::class, 'getCourseLesson']);
+});
+
+// Route::get('/courses/{id}/lessons',[LessonController::class,"getCourse"]);  
