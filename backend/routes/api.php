@@ -36,7 +36,7 @@ Route::get('/categories',[CategoryController::class,"index"]);
 //course
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{id}',[CourseController::class,"find"]);
-Route::get('/lessons',[LessonController::class,"index"]);
+
 
 
 /**
@@ -60,6 +60,7 @@ Route::middleware(['auth:api', 'role:admin'])->group(function() {
     Route::delete('/courses/{id}',[CourseController::class,"destroy"]);
 
     //Lesson
+    Route::get('/lessons',[LessonController::class,"index"]);
     Route::post('/lessons',[LessonController::class,"store"]);
     Route::patch('/lessons/{id}',[LessonController::class,"update"]);
     Route::delete('/lessons/{id}',[LessonController::class,"destroy"]);
@@ -69,8 +70,7 @@ Route::middleware(['auth:api', 'role:admin'])->group(function() {
  * Protect Route
  * User
  */
-Route::middleware(['auth:api', 'course.access'])->group(function () {
-    Route::get('/courses/{course_id}/lessons', [LessonController::class, 'getCourseLesson']);
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('/courses/{course_id}/lessons', [LessonController::class, 'getCourseLesson'])->middleware('course.access');
 });
-
-// Route::get('/courses/{id}/lessons',[LessonController::class,"getCourse"]);  
+    

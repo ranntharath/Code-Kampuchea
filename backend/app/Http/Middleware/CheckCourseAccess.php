@@ -21,8 +21,14 @@ class CheckCourseAccess
 
         $courseId = $request->route('course_id');
         // find course
-        $course = Course::findOrFail($courseId);
+        $course = Course::find($courseId);
 
+        if (!$course) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
         // Free course → allow
         if ($course->is_free) {
             return $next($request);
