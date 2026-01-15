@@ -1,11 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-primary-color:oklch(0.55 0.18 310);
-  --color-accent-color: oklch(0.62 0.14 200);
+  --color-primary-color:#4e51ed;
+  --color-accent-color: #c9267b;
+  --color-text-color:#171515;
+  --color-discription-color:#4c5663;
+  --color-accend-purple: #9433e8;
+  --font-geist:"Kantumruy Pro", sans-serif;
+}
+*{
+  font-family: var(--font-geist);
+}
+.modern-hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at top, #f8fafc 0%, #e2e8f0 100%);
+    transition: all 0.8s ease;
+}
+.hero-background {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.08) 0%, rgba(147, 51, 234, 0.08) 50%, rgba(236, 72, 153, 0.08) 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease-in-out infinite;
 }
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
