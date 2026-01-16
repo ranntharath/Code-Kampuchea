@@ -32,7 +32,7 @@ class CourseController extends Controller
      */
     function find($id){
         try {
-            $course = Course::findOrFail($id);
+            $course = Course::find($id);
             return response()->json([
                 "success"=>true,
                 "course"=>new CourseResource($course)

@@ -41,6 +41,11 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         // 'password' => 'hashed',
     ];
+
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
