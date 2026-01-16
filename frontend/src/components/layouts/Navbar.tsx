@@ -57,10 +57,10 @@ function Navbar() {
             <Button className=" cursor-pointer ml-4 bg-linear-to-r from-primary-color to-accend-purple text-white hover:opacity-90">
               ចូល
             </Button>
-            <Button className="hidden md:block cursor-pointer ml-2 bg-linear-to-r from-primary-color to-accend-purple text-white hover:opacity-90">
+            <NavLink to={'/register'}><Button className="hidden md:block cursor-pointer ml-2 bg-linear-to-r from-primary-color to-accend-purple text-white hover:opacity-90">
               បង្កើតគណនី
-            </Button>
-            <IoMenu onClick={()=>SetIsOpen(!isOpen)} className="ml-2 text-2xl cursor-pointer" />
+            </Button></NavLink>
+            <IoMenu onClick={()=>SetIsOpen(!isOpen)} className={`ml-2 block md:hidden text-2xl cursor-pointer ${isOpen}`} />
           </div>
         </nav>
       </div>

@@ -1,23 +1,16 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-export const courseApi = createApi({
-  reducerPath: "courseApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BACKEND_URL,
-    prepareHeaders: (header) => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        header.set("Authorization", `Bearer ${token}`);
-      }
-      return header;
-    },
-  }),
-  endpoints: (builder) => ({
-    getAllCourse: builder.query({
+import type { GetAllCoursesResponse } from "../../../types/course";
+import { baseApi } from "@/redux/api/baseApi";
+
+
+export const courseApi = baseApi.injectEndpoints({
+    endpoints: (builder) => ({
+    getAllCourse: builder.query<GetAllCoursesResponse, void>({
       query: () => ({
         url: "/api/courses",
         method: "GET",
       }),
+      providesTags: ['Course']
     }),
   }),
-});
+})
 export const { useGetAllCourseQuery } = courseApi;

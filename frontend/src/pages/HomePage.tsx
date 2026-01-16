@@ -2,60 +2,11 @@ import SectionTitle from "@/components/layouts/SectionTitle";
 import { useGetAllCourseQuery } from "@/features/courses/api/courseApi";
 import CourseCard from "@/features/courses/components/CourseCard";
 
-const courses = [
-  {
-    title: "React & TypeScript Masterclass",
-    description:
-      "Build modern web applications using React, TypeScript, hooks, and best practices.",
-    instructor: "Jane Doe",
-    thumbnail:
-      "https://images.unsplash.com/photo-1633356122542-727a01e17d59?w=800&auto=format&fit=crop",
-    duration: "18 hours",
-    level: "Intermediate",
-    price: "$79",
-    link: "/courses/react-ts",
-  },
-  {
-    title: "React Fundamentals",
-    description:
-      "Learn the core concepts of React from scratch with practical examples.",
-    instructor: "Jane Doe",
-    thumbnail:
-      "https://images.unsplash.com/photo-1633356122542-727a01e17d59?w=800&auto=format&fit=crop",
-    duration: "12 hours",
-    level: "Beginner",
-    price: "Free",
-    link: "/courses/react-basic",
-  },
-  {
-    title: "JavaScript Essentials",
-    description:
-      "Understand JavaScript deeply and build a strong foundation for web development.",
-    instructor: "Jane Doe",
-    thumbnail:
-      "https://images.unsplash.com/photo-1633356122542-727a01e17d59?w=800&auto=format&fit=crop",
-    duration: "10 hours",
-    level: "Beginner",
-    price: "$39",
-    link: "/courses/js",
-  },
-  {
-    title: "HTML & CSS Mastery",
-    description:
-      "Design beautiful and responsive websites using modern HTML & CSS.",
-    instructor: "Jane Doe",
-    thumbnail:
-      "https://images.unsplash.com/photo-1633356122542-727a01e17d59?w=800&auto=format&fit=crop",
-    duration: "8 hours",
-    level: "Beginner",
-    price: "$29",
-    link: "/courses/html-css",
-  },
-];
 
 function HomePage() {
-const { data} = useGetAllCourseQuery(undefined);  
-  console.log(data)
+const { data:course} = useGetAllCourseQuery();
+  
+  
 return (
     <>
       {/* Hero Section */}
@@ -90,7 +41,7 @@ return (
         />
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {courses.map((course, idx) => (
+          {course?.data?.map((course, idx) => (
             <CourseCard key={idx} {...course} />
           ))}
         </div>

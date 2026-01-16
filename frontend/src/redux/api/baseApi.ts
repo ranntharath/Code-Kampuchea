@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
     reducerPath: "baseAPi",
     baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.BASE_URL,
+        baseUrl: import.meta.env.VITE_BACKEND_URL,
         prepareHeaders:(header)=>{
             const token = localStorage.getItem('token')
             if(token){
@@ -12,6 +12,7 @@ export const baseApi = createApi({
         }
         
     }),
+    tagTypes: ["Course"],
     endpoints:()=>({})
 
 })
