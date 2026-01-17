@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -69,6 +70,9 @@ Route::middleware(['auth:api', 'role:admin'])->group(function() {
     //Order
     Route::get('/orders',[OrderController::class,'index']);
     Route::post('/orders',[OrderController::class,'createOrder']);
+    Route::put('/orders/{id}',[OrderController::class, 'updataOrderStutus']);
+    // payments
+    Route::get('/payments',[PaymentController::class,'getAllPaymetns']);
 });
 
 /**
@@ -77,7 +81,13 @@ Route::middleware(['auth:api', 'role:admin'])->group(function() {
  */
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/courses/{course_id}/lessons', [LessonController::class, 'getCourseLesson'])->middleware('course.access');
-    //create order
+    // order
     Route::post('/orders',[OrderController::class,'createOrder']);
+    Route::get('/orders',[OrderController::class,'getUserOrder']);
+
+    //payment
+    Route::post('/payments',[PaymentController::class,'createPayment']);
+
+    
 });
     
