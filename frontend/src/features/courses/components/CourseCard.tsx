@@ -11,10 +11,11 @@ function CourseCard({
   price,
   final_price,
   is_free,
+  is_enrolled,
 }: CourseCardProps) {
   const navigate = useNavigate();
   const handleLearn = () => {
-    if (is_free) {
+    if (is_free || is_enrolled) {
       navigate(`/course/${id}/learn`);
     } else {
       navigate(`/course/${id}`);
@@ -58,9 +59,7 @@ function CourseCard({
 
           <span
             className={`font-bold ${
-              final_price === 0
-                ? "text-green-500" 
-                : "text-primary-color" 
+              final_price === 0 ? "text-green-500" : "text-primary-color"
             }`}
           >
             {final_price === 0 ? "ឥតគិតថ្លៃ" : `$${price}`}
@@ -82,15 +81,15 @@ function CourseCard({
         <button
           onClick={handleLearn}
           className={` cursor-pointer
-    w-full py-3 rounded-xl font-medium text-white transition-colors duration-300
-    ${
-      is_free
-        ? "bg-green-500 hover:bg-green-600" 
-        : "bg-primary-color hover:bg-purple-600" 
-    }
-  `}
+            w-full py-3 rounded-xl font-medium text-white transition-colors duration-300
+            ${
+              is_free || is_enrolled
+                ? "bg-green-500 hover:bg-green-600"
+                : "bg-primary-color hover:bg-purple-600"
+            }
+          `}
         >
-          {is_free ? "ចាប់ផ្តើមរៀន" : "សូមចូលទៅកាន់វគ្គសិក្សា"}
+          {is_free || is_enrolled ? "ចាប់ផ្តើមរៀន" : "សូមចូលទៅកាន់វគ្គសិក្សា"}
         </button>
       </div>
     </div>

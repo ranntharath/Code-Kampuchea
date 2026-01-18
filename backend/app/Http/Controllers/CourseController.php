@@ -5,28 +5,46 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CourseResource;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
     //
-    function index(){
-        try {
-            // get only id and name
-            $courses = Course::with('category')->get();
-            
-            return response()->json([
-                'success' => true,
-                'message' => 'Courses fetched successfully',
-                'data' => CourseResource::collection($courses)
-            ],200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                "error" => $th->getMessage()
-            ], 500);
-        }
+    public function index(Request $request)
+{
+    try {
+        $user = auth('api')->user();
+        $userId = $user ? $user->id : null;
+
+        $courses = Course::all()->map(function($course) use ($userId) {
+            if ($userId) {
+                // Check if the user has a paid order for this course
+                $course->is_enrolled = Order::where('user_id', $userId)
+                    ->where('course_id', $course->id)
+                    ->where('status', 'completed')
+                    ->exists();
+            } else {
+                $course->is_enrolled = false;
+            }
+            return $course;
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Courses fetched successfully',
+            'data' => CourseResource::collection($courses)
+        ],200);
+
+    } catch (\Throwable $th) {
+        return response()->json([
+            "success" => false,
+            "error" => $th->getMessage()
+        ], 500);
     }
+}
+
     /**
      * get course by id
      */
@@ -130,6 +148,28 @@ class CourseController extends Controller
                 "success"=>false,
                 "error"=>$th->getMessage()
             ]);
+        }
+    }
+    function getMyCourses(){
+        try {
+            /** @var \App\Models\User $user */
+            $user = auth('api')->user();
+            $courses = $user->orders()
+                ->where('status', 'completed')
+                ->with('course.category')
+                ->get()
+                ->pluck('course');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'My courses fetched successfully',
+                'data' =>CourseResource::collection($courses)
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "success" => false,
+                "error" => $th->getMessage()
+            ], 500);
         }
     }
 

@@ -8,6 +8,7 @@ export  interface CourseCardProps {
   level: string
   final_price:number
   is_free:boolean
+  is_enrolled?:boolean
   price?: string; // optional, e.g. "$49" or "Free"
 }
 

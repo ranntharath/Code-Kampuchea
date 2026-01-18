@@ -88,6 +88,7 @@ Route::middleware(['auth:api'])->group(function () {
     //payment
     Route::post('/payments',[PaymentController::class,'createPayment']);
 
-    
+    // get my courses
+    Route::get('/my-courses',[CourseController::class,'getMyCourses']);
 });
     

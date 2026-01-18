@@ -37,7 +37,7 @@ class CheckCourseAccess
         // Paid course → check order
         $hasAccess = Order::where('user_id', auth('api')->id())
             ->where('course_id', $course->id)
-            ->where('status', 'paid')
+            ->where('status', 'completed')
             ->exists();
 
         if (!$hasAccess) {
