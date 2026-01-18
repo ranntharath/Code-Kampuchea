@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { CourseCardProps } from "../../../types/course";
 
 function CourseCard({
@@ -9,7 +10,17 @@ function CourseCard({
   level,
   price,
   final_price,
+  is_free,
 }: CourseCardProps) {
+  const navigate = useNavigate();
+  const handleLearn = () => {
+    if (is_free) {
+      navigate(`/course/${id}/learn`);
+    } else {
+      navigate(`/course/${id}`);
+    }
+  };
+
   return (
     <div
       key={id}
@@ -45,7 +56,13 @@ function CourseCard({
                   : level}
           </span>
 
-          <span className="font-bold text-primary-color">
+          <span
+            className={`font-bold ${
+              final_price === 0
+                ? "text-green-500" 
+                : "text-primary-color" 
+            }`}
+          >
             {final_price === 0 ? "ឥតគិតថ្លៃ" : `$${price}`}
           </span>
         </div>
@@ -63,13 +80,17 @@ function CourseCard({
         </p>
 
         <button
-          className={`
-                      w-full py-3 rounded-xl font-medium text-white
-                      bg-primary-color hover:bg-accend-purple
-                      transition-colors duration-300
-                    `}
+          onClick={handleLearn}
+          className={` cursor-pointer
+    w-full py-3 rounded-xl font-medium text-white transition-colors duration-300
+    ${
+      is_free
+        ? "bg-green-500 hover:bg-green-600" 
+        : "bg-primary-color hover:bg-purple-600" 
+    }
+  `}
         >
-          ចុះឈ្មោះឥឡូវ
+          {is_free ? "ចាប់ផ្តើមរៀន" : "សូមចូលទៅកាន់វគ្គសិក្សា"}
         </button>
       </div>
     </div>

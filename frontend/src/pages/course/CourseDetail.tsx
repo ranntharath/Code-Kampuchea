@@ -1,6 +1,14 @@
+import { useGetCourseByIdQuery } from "@/features/courses/api/courseApi";
+import { useParams } from "react-router-dom";
 
 
 function CourseDetail() {
+  const {id} = useParams<{id: string}>();
+  if(!id) return <div>Loading...</div>;
+  
+  const {data,isLoading} = useGetCourseByIdQuery(id);
+  if(isLoading) return <div>Loading...</div>;
+  console.log(data)
   return (
     <div className="min-h-screen bg-white ">
       {/* Hero Section */}
@@ -13,10 +21,10 @@ function CourseDetail() {
         <div className="relative max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              វគ្គសិក្សា React & TypeScript សម្រាប់អ្នកចាប់ផ្តើម
+              {data?.course.title}
             </h1>
             <p className="text-xl md:text-2xl opacity-90 mb-8 max-w-2xl">
-              រៀនបង្កើតកម្មវិធីគេហទំព័រដ៏ស្រស់ស្អាត និងមានប្រសិទ្ធភាពជាមួយបច្ចេកវិទ្យាទំនើបបំផុតនៅឆ្នាំ ២០២៦
+              {data?.course.description}
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -28,23 +36,23 @@ function CourseDetail() {
               </button>
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-8 text-sm md:text-base">
+            {/* <div className="mt-10 flex flex-wrap gap-8 text-sm md:text-base">
               <div>១២ មេរៀន</div>
               <div>៤៨ ម៉ោង វីដេអូ</div>
               <div>គាំទ្រ ជាប់មួយជីវិត</div>
               <div>វិញ្ញាបនបត្រ បញ្ចប់វគ្គ</div>
-            </div>
+            </div> */}
           </div>
 
           <div className="relative hidden md:block">
             {/* You can replace with real course preview image or video */}
             <div className="bg-black/30 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20">
               <div className="aspect-video bg-gray-900 rounded-xl mb-4 flex items-center justify-center text-white/70">
-                Preview Video / Image វគ្គសិក្សា
+                <img src={data?.course.thumbnail} alt="course thumbnail" />
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold">១២៩$</div>
-                <div className="text-sm line-through opacity-70">១៩៩$</div>
+                <div className="text-3xl font-bold">${data?.course.final_price}</div>
+                <div className="text-sm line-through opacity-70">${data?.course.price}</div>
               </div>
             </div>
           </div>

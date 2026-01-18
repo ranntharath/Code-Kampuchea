@@ -1,6 +1,7 @@
 // CoursePage.tsx
-import { useGetAllCourseQuery } from '@/features/courses/api/courseApi';
-import { useState } from 'react';
+import { useGetAllCourseQuery } from "@/features/courses/api/courseApi";
+import CourseCard from "@/features/courses/components/CourseCard";
+import { useState } from "react";
 
 // interface Course {
 //   id: string;
@@ -63,16 +64,23 @@ import { useState } from 'react';
 
 export default function CoursePage() {
   const { data: courses, isLoading } = useGetAllCourseQuery();
-  const [filterLevel, setFilterLevel] = useState<string>('ទាំងអស់');
+  const [filterLevel, setFilterLevel] = useState<string>("ទាំងអស់");
 
-  const levels = ['ទាំងអស់', 'Beginner', 'Intermediate', 'Advanced', 'គ្រប់កម្រិត'];
+  const levels = [
+    "ទាំងអស់",
+    "Beginner",
+    "Intermediate",
+    "Advanced",
+    "គ្រប់កម្រិត",
+  ];
 
-  const filteredCourses = courses?.data.filter((course) =>
-    filterLevel === 'ទាំងអស់' ? true : course?.level === filterLevel
-  ) || [];
+  const filteredCourses =
+    courses?.data.filter((course) =>
+      filterLevel === "ទាំងអស់" ? true : course?.level === filterLevel,
+    ) || [];
 
-  if(isLoading){
-    return <div>កំពុងផ្ទុកវគ្គសិក្សា...</div>
+  if (isLoading) {
+    return <div>កំពុងផ្ទុកវគ្គសិក្សា...</div>;
   }
   return (
     <div className="min-h-screen bg-gray-50 ">
@@ -81,21 +89,16 @@ export default function CoursePage() {
         <div className="text-center mb-12 relative">
           <div className="hero-background absolute inset-0 -z-10" />
 
-        <div className="mx-auto max-w-5xl text-center">
-          <h1 className="text-4xl p-1.5 md:text-6xl font-bold text-transparent bg-clip-text bg-linear-to-r from-primary-color to-accent-color">
-            ស្វែងរកវគ្គសិក្សារបស់យើង
-          </h1>
+          <div className="mx-auto max-w-5xl text-center">
+            <h1 className="text-4xl p-1.5 md:text-6xl font-bold text-transparent bg-clip-text bg-linear-to-r from-primary-color to-accent-color">
+              ស្វែងរកវគ្គសិក្សារបស់យើង
+            </h1>
 
-          
-
-          <p className="mt-6 text-lg md:text-xl text-discription-color">
-            រៀនជំនាញដែលទីផ្សារត្រូវការ ពីអ្នកជំនាញខាងវិស័យ
-          </p>
+            <p className="mt-6 text-lg md:text-xl text-discription-color">
+              រៀនជំនាញដែលទីផ្សារត្រូវការ ពីអ្នកជំនាញខាងវិស័យ
+            </p>
+          </div>
         </div>
-        </div>
-        
-
-        
 
         {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
@@ -107,18 +110,18 @@ export default function CoursePage() {
                 px-6 py-2.5 rounded-full text-sm font-medium transition-all
                 ${
                   filterLevel === level
-                    ? 'bg-primary-color text-white shadow-lg shadow-primary-color/30'
-                    : 'bg-white text-color-text-color border border-gray-300 hover:border-accent-color hover:text-accent-color'
+                    ? "bg-primary-color text-white shadow-lg shadow-primary-color/30"
+                    : "bg-white text-color-text-color border border-gray-300 hover:border-accent-color hover:text-accent-color"
                 }
               `}
             >
-              {level === 'Beginner'
-                ? 'ថ្នាក់ដើម'
-                : level === 'Intermediate'
-                ? 'ថ្នាក់កណ្តាល'
-                : level === 'Advanced'
-                ? 'ថ្នាក់ខ្ពស់'
-                : level}
+              {level === "Beginner"
+                ? "ថ្នាក់ដើម"
+                : level === "Intermediate"
+                  ? "ថ្នាក់កណ្តាល"
+                  : level === "Advanced"
+                    ? "ថ្នាក់ខ្ពស់"
+                    : level}
             </button>
           ))}
         </div>
@@ -127,69 +130,8 @@ export default function CoursePage() {
         {filteredCourses.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
             {filteredCourses.map((course) => (
-              <div
-                key={course.id}
-                className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 group"
-              >
-                <div
-                  className="h-48 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${course.thumbnail})` }}
-                />
-
-                <div className="p-5 flex flex-col">
-                  <div className="flex justify-between items-center mb-3">
-                    <span
-                      className={`
-                        text-xs font-semibold px-3 py-1 rounded-full
-                        ${
-                          course.level === 'Beginner'
-                            ? 'bg-green-100 text-green-800'
-                            : course.level === 'Intermediate'
-                            ? 'bg-amber-100 text-amber-800'
-                            : course.level === 'Advanced'
-                            ? 'bg-red-100 text-red-800'
-                            : 'bg-purple-100 text-purple-800'
-                        }
-                      `}
-                    >
-                      {course.level === 'Beginner'
-                        ? 'ថ្នាក់ដើម'
-                        : course.level === 'Intermediate'
-                        ? 'ថ្នាក់កណ្តាល'
-                        : course.level === 'Advanced'
-                        ? 'ថ្នាក់ខ្ពស់'
-                        : course.level}
-                    </span>
-
-                    <span className="font-bold text-primary-color">
-                      {course.final_price === 0 ? 'ឥតគិតថ្លៃ' : `$${course.price}`}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-semibold text-text-color line-clamp-2 mb-2 group-hover:text-accent-color transition-colors">
-                    {course.title}
-                  </h3>
-
-                  <p className="text-sm text--discription-color mb-4 line-clamp-3">
-                    {course.description}
-                  </p>
-
-                  <p className="text-sm text-gray-500 mb-4">
-                    ដោយ <span className="font-medium">{course.instructor}</span>
-                  </p>
-
-
-                  <button
-                    className={`
-                      w-full py-3 rounded-xl font-medium text-white
-                      bg-primary-color hover:bg-accend-purple
-                      transition-colors duration-300
-                    `}
-                  >
-                    ចុះឈ្មោះឥឡូវ
-                  </button>
-                </div>
-              </div>
+                <CourseCard key={course.id} {...course} />
+              
             ))}
           </div>
         ) : (
