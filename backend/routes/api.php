@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OrderController;
@@ -39,6 +40,8 @@ Route::get('/categories',[CategoryController::class,"index"]);
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{id}',[CourseController::class,"find"]);
 
+//chat
+Route::post('/chats',[ChatController::class,'chat']);
 
 
 /**
