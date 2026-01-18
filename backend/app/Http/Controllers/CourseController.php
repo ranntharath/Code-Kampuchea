@@ -61,6 +61,8 @@ class CourseController extends Controller
                 'thumbnail' => 'required|string',
                 'is_free' => 'sometimes|boolean',
                 'price' => 'numeric|min:0',
+                'level'=>'required|in:Beginner,Intermediate,Advanced,All',
+                'instructor'=>'required|string|max:255',
                 'discount_percent'=>'numeric|min:0'
             ]);
            

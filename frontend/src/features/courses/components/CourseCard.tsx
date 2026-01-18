@@ -1,63 +1,76 @@
-import { Link } from "react-router-dom"; // or use <a> if no router
 import type { CourseCardProps } from "../../../types/course";
 
 function CourseCard({
+  id,
+  instructor,
   title,
   description,
   thumbnail,
-  duration,
   level,
   price,
-  link,
+  final_price,
 }: CourseCardProps) {
   return (
-    <div className="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-xl ">
-      {/* Thumbnail */}
-      <div className="aspect-video w-full overflow-hidden">
-        <img
-          src={thumbnail}
-          alt={title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
-      </div>
+    <div
+      key={id}
+      className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 group"
+    >
+      <div
+        className="h-48 bg-cover bg-center"
+        style={{ backgroundImage: `url(${thumbnail})` }}
+      />
 
-      {/* Content */}
-      <div className="p-5 font-sans">
-        {/* Badges */}
-        <div className="mb-3 flex flex-wrap gap-2">
-          <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
-            {level}
+      <div className="p-5 flex flex-col">
+        <div className="flex justify-between items-center mb-3">
+          <span
+            className={`
+                        text-xs font-semibold px-3 py-1 rounded-full
+                        ${
+                          level === "Beginner"
+                            ? "bg-green-100 text-green-800"
+                            : level === "Intermediate"
+                              ? "bg-amber-100 text-amber-800"
+                              : level === "Advanced"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-purple-100 text-purple-800"
+                        }
+                      `}
+          >
+            {level === "Beginner"
+              ? "ថ្នាក់ដើម"
+              : level === "Intermediate"
+                ? "ថ្នាក់កណ្តាល"
+                : level === "Advanced"
+                  ? "ថ្នាក់ខ្ពស់"
+                  : level}
           </span>
-          <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-            {duration}
+
+          <span className="font-bold text-primary-color">
+            {final_price === 0 ? "ឥតគិតថ្លៃ" : `$${price}`}
           </span>
-          {price && (
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-300">
-              {price}
-            </span>
-          )}
         </div>
 
-        {/* Title */}
-        <h3 className="mb-2 text-xl font-semibold leading-tight text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+        <h3 className="text-lg font-semibold text-text-color line-clamp-2 mb-2 group-hover:text-accent-color transition-colors">
           {title}
         </h3>
 
-        {/* Description */}
-        <p className="mb-4 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-sm text--discription-color mb-4 line-clamp-3">
           {description}
         </p>
 
-        {/* Instructor + CTA */}
-        <div className="flex items-center justify-between">
-          <Link
-            to={link}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-500 dark:hover:bg-blue-600"
-          >
-            Enroll Now
-          </Link>
-        </div>
+        <p className="text-sm text-gray-500 mb-4">
+          ដោយ <span className="font-medium">{instructor}</span>
+        </p>
+
+        <button
+          className={`
+                      w-full py-3 rounded-xl font-medium text-white
+                      bg-primary-color hover:bg-accend-purple
+                      transition-colors duration-300
+                    `}
+        >
+          ចុះឈ្មោះឥឡូវ
+        </button>
       </div>
     </div>
   );

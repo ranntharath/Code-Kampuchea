@@ -5,6 +5,7 @@ import CoursePage from "./pages/course/CoursePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import RegisterPage from "./pages/auth/RegisterPage";
+import LoginPage from "./pages/auth/LoginPage";
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
       <Routes>
         {/* auth routes */}
         <Route path="/register" element={<RegisterPage/>} />
+        <Route path="/login" element={<LoginPage/>} />
+
         {/* user routes */}
         <Route path="/" element={<RootLayout/>}>
           <Route path="/" element={<HomePage/> }/>

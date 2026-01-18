@@ -30,6 +30,8 @@ class CourseResource extends JsonResource
             "final_price" => $finalPrice,
             'is_free' => (bool)  $this->is_free,
             'category' => $this->category?->name,
+            'level' => $this->level,
+            'instructor' => $this->instructor,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

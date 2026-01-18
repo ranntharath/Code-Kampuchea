@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import type { Register } from "@/types/auth";
 import React, { useState } from "react";
 import { useRegisterMutation } from "../api/authApi";
+import { NavLink } from "react-router-dom";
 
 function RegisterForm() {
   const [register] = useRegisterMutation()
@@ -98,9 +99,11 @@ function RegisterForm() {
         {/* Footer */}
         <p className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <span className="cursor-pointer font-medium text-blue-600 hover:underline">
+          <NavLink to={'/login'}>
+            <span className="cursor-pointer font-medium text-blue-600 hover:underline">
             Login
           </span>
+          </NavLink>
         </p>
       </div>
     </div>
