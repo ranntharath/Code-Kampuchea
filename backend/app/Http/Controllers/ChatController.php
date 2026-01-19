@@ -24,8 +24,7 @@ class ChatController extends Controller
                 throw new \Exception('GEMINI_API_KEY not set in .env');
             }
 
-            $response = Http::withOptions(['verify' => false]) // only for local dev; remove/fix in prod!
-                ->withHeaders([
+            $response = Http::withHeaders([
                     'Content-Type' => 'application/json',
                 ])
                 ->post(

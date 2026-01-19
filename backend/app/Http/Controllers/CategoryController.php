@@ -24,7 +24,7 @@ class CategoryController extends Controller
     function store(Request $request){
         try {
             $request->validate([
-                "name"=>"string|required"
+                "name"=>"string|required|max:255|unique:categories,name"
             ]);
             $cat = new Category();
             $cat->name = $request->name;

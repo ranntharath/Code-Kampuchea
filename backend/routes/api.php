@@ -76,6 +76,7 @@ Route::middleware(['auth:api', 'role:admin'])->group(function() {
     Route::put('/orders/{id}',[OrderController::class, 'updataOrderStutus']);
     // payments
     Route::get('/payments',[PaymentController::class,'getAllPaymetns']);
+    Route::post('/payments/status',[PaymentController::class,'checkPaymentStatus']);
 });
 
 /**

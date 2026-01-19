@@ -12,7 +12,7 @@ export const baseApi = createApi({
         }
         
     }),
-    tagTypes: ["Course","Lesson"],
+    tagTypes: ["Course","Lesson", "Orders","Payment"],
     endpoints:()=>({})
 
 })
