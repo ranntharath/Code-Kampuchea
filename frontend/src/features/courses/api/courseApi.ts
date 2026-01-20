@@ -1,4 +1,4 @@
-import type { GetAllCoursesResponse } from "../../../types/course";
+import type { CourseDetailResponse, GetAllCoursesResponse } from "../../../types/course";
 import { baseApi } from "@/redux/api/baseApi";
 
 
@@ -11,6 +11,13 @@ export const courseApi = baseApi.injectEndpoints({
       }),
       providesTags: ['Course']
     }),
+    getCourseById: builder.query<CourseDetailResponse, string>({
+      query: (id: string) => ({
+        url: `/api/courses/${id}`,
+        method: "GET",
+      }),
+      providesTags: ['Course']
+    })
   }),
 })
-export const { useGetAllCourseQuery } = courseApi;
+export const { useGetAllCourseQuery, useGetCourseByIdQuery } = courseApi;

@@ -5,6 +5,9 @@ import CoursePage from "./pages/course/CoursePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import RegisterPage from "./pages/auth/RegisterPage";
+import LoginPage from "./pages/auth/LoginPage";
+import CourseDetail from "./pages/course/CourseDetail";
+import LearnCourse from "./pages/course/LearnCourse";
 
 function App() {
   return (
@@ -12,12 +15,16 @@ function App() {
       <Routes>
         {/* auth routes */}
         <Route path="/register" element={<RegisterPage/>} />
+        <Route path="/login" element={<LoginPage/>} />
+
         {/* user routes */}
         <Route path="/" element={<RootLayout/>}>
           <Route path="/" element={<HomePage/> }/>
           <Route path="/course" element={<CoursePage/> }/>
           <Route path="/about" element={<AboutPage/> }/>
           <Route path="/contact" element={<ContactPage/> }/>
+          <Route path="/course/:id" element={<CourseDetail/> }  />
+          <Route path="/course/:id/learn" element={<LearnCourse/> }/>
         </Route>
       </Routes>
     </BrowserRouter>

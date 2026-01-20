@@ -54,9 +54,11 @@ function Navbar() {
 
           {/* Action button */}
           <div className="flex justify-center items-center ">
-            <Button className=" cursor-pointer ml-4 bg-linear-to-r from-primary-color to-accend-purple text-white hover:opacity-90">
+            <NavLink to={'/login'}>
+              <Button className=" cursor-pointer ml-4 bg-linear-to-r from-primary-color to-accend-purple text-white hover:opacity-90">
               ចូល
             </Button>
+            </NavLink>
             <NavLink to={'/register'}><Button className="hidden md:block cursor-pointer ml-2 bg-linear-to-r from-primary-color to-accend-purple text-white hover:opacity-90">
               បង្កើតគណនី
             </Button></NavLink>

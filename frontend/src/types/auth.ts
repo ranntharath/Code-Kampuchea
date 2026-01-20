@@ -16,3 +16,8 @@ export type RegisterResponse={
     token:string,
     token_type:string
 }
+
+export type Login ={
+    email: string,
+    password: string
+}

@@ -1,65 +1,128 @@
-import { Link } from "react-router-dom"; // or use <a> if no router
+import { useNavigate } from "react-router-dom";
 import type { CourseCardProps } from "../../../types/course";
+import { useAuth } from "@/hooks/authHook";
+import { useState } from "react";
+import ConfirmDialog from "@/components/layouts/ConfirmDialog";
 
 function CourseCard({
+  id,
+  instructor,
   title,
   description,
   thumbnail,
-  duration,
   level,
   price,
-  link,
+  final_price,
+  is_free,
+  is_enrolled,
 }: CourseCardProps) {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
+  const handleLearn = () => {
+    if (!isAuthenticated) {
+      setIsConfirmOpen(true);
+      return;
+    }
+    if (is_free || is_enrolled) {
+      navigate(`/course/${id}/learn`);
+    } else {
+      navigate(`/course/${id}`);
+    }
+  };
+
   return (
-    <div className="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-xl ">
-      {/* Thumbnail */}
-      <div className="aspect-video w-full overflow-hidden">
-        <img
-          src={thumbnail}
-          alt={title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
+    <>
+      <div
+        key={id}
+        className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 group"
+      >
+        <div
+          className="h-48 bg-cover bg-center"
+          style={{ backgroundImage: `url(${thumbnail})` }}
         />
-      </div>
 
-      {/* Content */}
-      <div className="p-5 font-sans">
-        {/* Badges */}
-        <div className="mb-3 flex flex-wrap gap-2">
-          <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
-            {level}
-          </span>
-          <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-            {duration}
-          </span>
-          {price && (
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-300">
-              {price}
+        <div className="p-5 flex flex-col">
+          <div className="flex justify-between items-center mb-3">
+            <span
+              className={`
+                        text-xs font-semibold px-3 py-1 rounded-full
+                        ${
+                          level === "Beginner"
+                            ? "bg-green-100 text-green-800"
+                            : level === "Intermediate"
+                              ? "bg-amber-100 text-amber-800"
+                              : level === "Advanced"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-purple-100 text-purple-800"
+                        }
+                      `}
+            >
+              {level === "Beginner"
+                ? "ថ្នាក់ដើម"
+                : level === "Intermediate"
+                  ? "ថ្នាក់កណ្តាល"
+                  : level === "Advanced"
+                    ? "ថ្នាក់ខ្ពស់"
+                    : level}
             </span>
-          )}
-        </div>
 
-        {/* Title */}
-        <h3 className="mb-2 text-xl font-semibold leading-tight text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
-          {title}
-        </h3>
+            <span
+              className={`font-bold ${
+                final_price === 0 ? "text-green-500" : "text-primary-color"
+              }`}
+            >
+            {final_price === 0 ? (
+              <span className="text-green-600 font-bold">ឥតគិតថ្លៃ</span>
+            ) : (
+              <span>
+                <span className="text-red-600 font-bold">${final_price.toLocaleString()}</span>{" "}
+                <del className="text-gray-400">${price}</del>
+              </span>
+            )}
 
-        {/* Description */}
-        <p className="mb-4 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
-          {description}
-        </p>
 
-        {/* Instructor + CTA */}
-        <div className="flex items-center justify-between">
-          <Link
-            to={link}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-500 dark:hover:bg-blue-600"
+            </span>
+          </div>
+
+          <h3 className="text-lg font-semibold text-text-color line-clamp-2 mb-2 group-hover:text-accent-color transition-colors">
+            {title}
+          </h3>
+
+          <p className="text-sm text--discription-color mb-4 line-clamp-3">
+            {description}
+          </p>
+
+          <p className="text-sm text-gray-500 mb-4">
+            ដោយ <span className="font-medium">{instructor}</span>
+          </p>
+
+          <button
+            onClick={handleLearn}
+            className={` cursor-pointer
+            w-full py-3 rounded-xl font-medium text-white transition-colors duration-300
+            ${
+              is_free || is_enrolled
+                ? "bg-green-500 hover:bg-green-600"
+                : "bg-primary-color hover:bg-purple-600"
+            }
+          `}
           >
-            Enroll Now
-          </Link>
+            {is_free || is_enrolled ? "ចាប់ផ្តើមរៀន" : "សូមចូលទៅកាន់វគ្គសិក្សា"}
+          </button>
         </div>
       </div>
-    </div>
+      <ConfirmDialog
+        title="សូមចូលទៅកាន់គណនីរបស់អ្នក"
+        message="សូមចូលទៅកាន់គណនីរបស់អ្នកដើម្បីចាប់ផ្តើមរៀនវគ្គសិក្សា។"
+        isOpen={isConfirmOpen}
+        onConfirm={() => {
+          setIsConfirmOpen(false);
+          navigate("/login");
+        }}
+        onCancel={() => setIsConfirmOpen(false)}
+      />
+    </>
   );
 }
 

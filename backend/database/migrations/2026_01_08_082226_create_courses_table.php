@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text("description");
             $table->string("thumbnail");
             $table->decimal('price', 10, 2);
+            $table->string('instructor');
+            $table->enum('level',['Beginner','Intermediate','Advanced',"All"]);
             $table->unsignedTinyInteger('discount_percent')->default(0);
             $table->boolean("is_free")->default(false);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');

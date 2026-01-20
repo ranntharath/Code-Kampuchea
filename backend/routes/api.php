@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\OrderController;
@@ -29,7 +30,8 @@ use Illuminate\Support\Facades\Route;
  */
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
 /**
  * PUBLIC ROUTE
  */
@@ -39,6 +41,8 @@ Route::get('/categories',[CategoryController::class,"index"]);
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{id}',[CourseController::class,"find"]);
 
+//chat
+Route::post('/chats',[ChatController::class,'chat']);
 
 
 /**
@@ -73,6 +77,7 @@ Route::middleware(['auth:api', 'role:admin'])->group(function() {
     Route::put('/orders/{id}',[OrderController::class, 'updataOrderStutus']);
     // payments
     Route::get('/payments',[PaymentController::class,'getAllPaymetns']);
+    Route::post('/payments/status',[PaymentController::class,'checkPaymentStatus']);
 });
 
 /**
@@ -88,6 +93,7 @@ Route::middleware(['auth:api'])->group(function () {
     //payment
     Route::post('/payments',[PaymentController::class,'createPayment']);
 
-    
+    // get my courses
+    Route::get('/my-courses',[CourseController::class,'getMyCourses']);
 });
     
