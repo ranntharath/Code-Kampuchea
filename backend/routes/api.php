@@ -30,7 +30,8 @@ use Illuminate\Support\Facades\Route;
  */
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
 /**
  * PUBLIC ROUTE
  */

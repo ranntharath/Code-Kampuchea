@@ -12,8 +12,7 @@ use Illuminate\Http\Request;
 class CourseController extends Controller
 {
     //
-    public function index(Request $request)
-{
+    public function index(){
     try {
         $user = auth('api')->user();
         $userId = $user ? $user->id : null;
