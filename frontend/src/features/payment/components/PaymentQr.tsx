@@ -2,8 +2,10 @@ import type { CreatePaymentResponse } from "@/types/payment";
 import { QRCodeCanvas } from "qrcode.react";
 
 export default function PaymentQr({ qr }: { qr: CreatePaymentResponse }) {
+  
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div className=" flex items-center justify-center  p-4">
       <div className="w-[320px] rounded-2xl bg-white shadow-lg overflow-hidden ">
         {/* Header */}
         <div className="bg-red-600 text-white font-semibold text-center py-3 text-lg">

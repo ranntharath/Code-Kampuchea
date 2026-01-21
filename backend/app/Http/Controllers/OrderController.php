@@ -44,7 +44,7 @@ class OrderController extends Controller
 
             $data['user_id'] = $user->id;
             $data['amount']  = $course->price;
-            $data['status'] = "pending";
+            $data['status'] = "completed";
 
             $insert = Order::create($data);
             return response()->json([

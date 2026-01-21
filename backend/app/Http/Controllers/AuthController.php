@@ -21,6 +21,7 @@ class AuthController extends Controller
             ]);
 
             $data['password'] = Hash::make($data['password']);
+            $data['role'] = 'user';
             $user = User::create($data);
 
             // get random otp and send mail

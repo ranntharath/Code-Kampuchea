@@ -122,7 +122,8 @@ public function checkPaymentStatus(Request $request)
                 'success' => true,
                 'paid'    => true,
                 'message' => 'Payment confirmed',
-                'data'    => $apiResponse['data'] ?? null
+                'amount'  => $apiResponse['data']['amount'] ?? null,
+                'currency'=> $apiResponse['data']['currency'] ?? null,
             ]);
         }
 
