@@ -19,13 +19,7 @@ function ConfirmDialog({
         isOpen ? "visible opacity-100" : "invisible opacity-0"
       }`}
     >
-      {/* Overlay */}
-      <div
-        onClick={onCancel}
-        className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0"
-        }`}
-      />
+     
 
       {/* Dialog */}
       <div

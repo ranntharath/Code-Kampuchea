@@ -117,7 +117,7 @@ public function checkPaymentStatus(Request $request)
         if (isset($apiResponse['responseCode']) && $apiResponse['responseCode'] === 0) {
            
             
-
+            
             return response()->json([
                 'success' => true,
                 'paid'    => true,

@@ -4,9 +4,10 @@ import { QRCodeCanvas } from "qrcode.react";
 export default function PaymentQr({ qr }: { qr: CreatePaymentResponse }) {
   
 
+
   return (
-    <div className=" flex items-center justify-center  p-4">
-      <div className="w-[320px] rounded-2xl bg-white shadow-lg overflow-hidden ">
+    <div className=" flex items-center justify-center">
+      <div className="w-[320px] rounded-sm bg-white shadow-sm overflow-hidden ">
         {/* Header */}
         <div className="bg-red-600 text-white font-semibold text-center py-3 text-lg">
           KHQR

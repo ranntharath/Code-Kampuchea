@@ -3,6 +3,7 @@ import Navbar from "./Navbar"
 import Footer from "./Footer"
 import { useAuth } from "@/hooks/authHook"
 import NavbarLogin from "./NavbarLogin"
+import ChatContainer from "@/features/chat/components/ChatContainer"
 
 
 function RootLayout() {
@@ -13,6 +14,7 @@ function RootLayout() {
     {isAuthenticated ? <NavbarLogin/> : <Navbar/>}
         <Outlet/>
     <Footer/>
+    <ChatContainer/>
 
     </>
   )

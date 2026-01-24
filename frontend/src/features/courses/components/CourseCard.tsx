@@ -24,11 +24,9 @@ function CourseCard({
       setIsConfirmOpen(true);
       return;
     }
-    if (is_free || is_enrolled) {
-      navigate(`/course/${id}/learn`);
-    } else {
-      navigate(`/course/${id}`);
-    }
+
+    navigate(`/course/${id}`);
+    
   };
 
   return (

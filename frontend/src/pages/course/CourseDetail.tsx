@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   useCheckPaymentMutation,
   useGetCourseByIdQuery,
@@ -6,19 +7,21 @@ import {
   useCratePaymentMutation,
   useCreateOrderMutation,
 } from "@/features/order/api/orderSlice";
-import PaymentQr from "@/features/payment/components/PaymentQr";
+import PaymentModal from "@/features/payment/components/PaymentModal";
 import type { CreatePaymentResponse } from "@/types/payment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 function CourseDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
   // get current course detail
   const { data, isLoading } = useGetCourseByIdQuery(id!);
   const [createPayment, { isLoading: isLoadingPayment }] =
     useCratePaymentMutation();
-  const [checkPayment] = useCheckPaymentMutation();
+  const [checkPayment, { isLoading: isCheckingPayment }] =
+    useCheckPaymentMutation();
 
   const [createOrder] = useCreateOrderMutation();
 
@@ -31,55 +34,56 @@ function CourseDetail() {
     course_id: 0,
   });
   // show/hide QR bottom sheet
-  const [showQrSheet, setShowQrSheet] = useState(false);
+  const [showPayment, setshowPayment] = useState(false);
 
   // enroll handler
   async function handleEnroll() {
     if (!data?.course?.id) return;
-
+    if(data.course.is_free || data.course.is_enrolled){
+      navigate(`/course/${id}/learn`)
+      return
+    }
+    // open modal
+    setshowPayment(true);
     try {
       const payment = await createPayment({
         course_id: data.course.id,
       }).unwrap();
 
       setQr(payment);
-      setShowQrSheet(true);
     } catch (err) {
       console.error("បរាជ័យក្នុងការបង្កើតការទូទាត់:", err);
     }
   }
 
-  useEffect(() => {
-    if (!showQrSheet) return;
+  const checkPaymentStatus = async () => {
+    try {
+      const response = await checkPayment({ md5: qr.md5 }).unwrap();
+      if (response.paid) {
+        await createOrder({ course_id: data!.course.id }).unwrap();
+        // close QR sheet
+        setshowPayment(false);
 
-    // check payment status every 5 seconds
-    const checkPaymentStatus = setInterval(async () => {
-      try {
-        const response = await checkPayment({ md5: qr.md5 }).unwrap();
-        if (response.paid) {
-          await createOrder({ course_id: data!.course.id }).unwrap();
-          // close QR sheet
-          setShowQrSheet(false);
-          
-          navigate(`/course/${data!.course.id}/learn`);
-
-          // stop checking payment status
-          clearInterval(checkPaymentStatus);
-        }
-      } catch (err) {
-        console.log(err);
+        navigate(`/course/${data!.course.id}/learn`);
       }
-    }, 3000);
-    // CLEANUP 
-    return () => {
-      clearInterval(checkPaymentStatus);
-    };
-  }, [showQrSheet]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (isLoading) return <div className="p-10">កំពុងផ្ទុកទិន្នន័យ...</div>;
 
   return (
     <>
+      <PaymentModal
+        onClose={() => setshowPayment(false)}
+        isOpen={showPayment}
+        course={data!.course}
+        isCreatePayment={isLoadingPayment}
+        qr={qr}
+        onCheckPayment={checkPaymentStatus}
+        isCheckingPayment={isCheckingPayment}
+      />
       {/* MAIN PAGE */}
       <div className="min-h-screen bg-gray-50">
         <div
@@ -101,7 +105,7 @@ function CourseDetail() {
 
             <img
               src={data?.course.thumbnail}
-              className="w-full rounded-2xl shadow-lg aspect-video object-cover"
+              className="w-full rounded-sm shadow-lg aspect-video object-cover"
               alt="រូបភាពវគ្គសិក្សា"
             />
 
@@ -119,91 +123,61 @@ function CourseDetail() {
           {/* RIGHT CONTENT */}
           <div className="space-y-6">
             {/* ORDER SUMMARY */}
-            <div className="bg-white rounded-2xl shadow-xl p-6">
-              <h3 className="text-xl font-bold mb-4">
-                សេចក្តីសង្ខេបការបញ្ជាទិញ
-              </h3>
+            <div className="bg-white rounded-sm shadow-xl p-6">
+              <h3 className="text-xl font-bold mb-4">ចុះឈ្មោះវគ្គសិក្សា</h3>
 
-              <div className="flex justify-between mb-3">
-                <span>តម្លៃវគ្គសិក្សា</span>
-                <span className="line-through text-gray-400">
-                  ${data?.course.price}
-                </span>
-              </div>
-
-              <div className="flex justify-between text-lg font-bold mb-6">
-                <span>តម្លៃសរុប</span>
-                <span className="text-primary-color">
+              <div className=" mb-3">
+                <p className="font-semibold">តម្លៃវគ្គសិក្សា</p>
+                <span className=" text-primary-color font-bold text-2xl">
                   ${data?.course.final_price}
                 </span>
               </div>
 
-              {!showQrSheet && (
-                <button
-                  onClick={handleEnroll}
-                  className="
-                    w-full bg-primary-color text-white py-4 rounded-xl
-                    font-bold transition hover:scale-105
-                  "
-                >
-                  បន្តទៅការទូទាត់
-                </button>
-              )}
+              <div className="">
+                <p className="font-semibold mb-4">អ្វីដែលអ្នកនឹងទទួលបាន</p>
+                <ul className="list-disc list-inside text-gray-700 space-y-2">
+                  <li>ចូលរៀនបានមិនកំណត់</li>
+                  <li>គម្រោងអនុវត្តជាក់ស្តែង</li>
+                  <li>វិដេអូបង្រៀនមានគុណភាព</li>
+                </ul>
+              </div>
+
+{!showPayment && (
+  <Button
+    onClick={handleEnroll}
+    className={`
+      w-full
+      py-5
+      rounded-sm
+      font-bold
+      transition-all
+      duration-200
+      mt-6
+      cursor-pointer
+
+      ${
+        data?.course.is_enrolled
+          ? "bg-green-600 hover:bg-green-700 text-white"
+          : data?.course.is_free
+          ? "bg-blue-600 hover:bg-blue-700 text-white"
+          : "bg-primary-color/95 hover:bg-primary-color text-white"
+      }
+
+      hover:scale-[1.01]
+      active:scale-[0.98]
+    `}
+  >
+    {data?.course.is_enrolled || data?.course.is_free
+      ? "បន្តទៅវគ្គសិក្សា"
+      : "បន្តទៅការទូទាត់"}
+  </Button>
+)}
 
               <p className="text-sm text-gray-500 text-center mt-3">
                 ការទូទាត់មានសុវត្ថិភាព • គាំទ្រ QR
               </p>
             </div>
-
-            {/* DESKTOP QR */}
-            {showQrSheet && (
-              <div className="hidden lg:block bg-white rounded-2xl p-6">
-                <PaymentQr qr={qr} />
-              </div>
-            )}
           </div>
-        </div>
-      </div>
-
-      {/* MOBILE QR BOTTOM SHEET */}
-      <div
-        className={`fixed inset-0 z-50 lg:hidden ${
-          showQrSheet ? "visible" : "invisible"
-        }`}
-      >
-        {/* BACKDROP */}
-        <div
-          onClick={() => setShowQrSheet(false)}
-          className={`absolute inset-0 bg-black/40 transition-opacity ${
-            showQrSheet ? "opacity-100" : "opacity-0"
-          }`}
-        />
-
-        {/* SHEET */}
-        <div
-          className={`
-            absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl
-            p-6 transform transition-transform duration-300
-            ${showQrSheet ? "translate-y-0" : "translate-y-full"}
-          `}
-        >
-          <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4" />
-
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-bold">ស្កេន QR ដើម្បីទូទាត់</h3>
-            <button
-              onClick={() => setShowQrSheet(false)}
-              className="text-gray-500 text-xl"
-            >
-              ✕
-            </button>
-          </div>
-
-          {isLoadingPayment ? (
-            <p className="text-center text-gray-400 py-10">កំពុងបង្កើត QR...</p>
-          ) : (
-            <PaymentQr qr={qr} />
-          )}
         </div>
       </div>
     </>
