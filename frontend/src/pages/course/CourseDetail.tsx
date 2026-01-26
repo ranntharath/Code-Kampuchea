@@ -17,7 +17,7 @@ function CourseDetail() {
   const navigate = useNavigate();
 
   // get current course detail
-  const { data, isLoading } = useGetCourseByIdQuery(id!);
+  const { data, isLoading ,refetch} = useGetCourseByIdQuery(id!);
   const [createPayment, { isLoading: isLoadingPayment }] =
     useCratePaymentMutation();
   const [checkPayment, { isLoading: isCheckingPayment }] =
@@ -63,6 +63,7 @@ function CourseDetail() {
         await createOrder({ course_id: data!.course.id }).unwrap();
         // close QR sheet
         setshowPayment(false);
+        refetch()
 
         navigate(`/course/${data!.course.id}/learn`);
       }

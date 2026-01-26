@@ -19,11 +19,12 @@ function ConfirmDialog({
         isOpen ? "visible opacity-100" : "invisible opacity-0"
       }`}
     >
-     
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-40" />
+ 
 
       {/* Dialog */}
       <div
-        className={`relative w-full max-w-md rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 ${
+        className={`relative z-50 w-full max-w-md rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 ${
           isOpen
             ? "scale-100 opacity-100"
             : "scale-95 opacity-0"

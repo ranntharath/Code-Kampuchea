@@ -77,7 +77,6 @@ Route::middleware(['auth:api', 'role:admin'])->group(function() {
     Route::put('/orders/{id}',[OrderController::class, 'updataOrderStutus']);
     // payments
     Route::get('/payments',[PaymentController::class,'getAllPaymetns']);
-    Route::post('/payments/status',[PaymentController::class,'checkPaymentStatus']);
 });
 
 /**
@@ -92,6 +91,8 @@ Route::middleware(['auth:api'])->group(function () {
 
     //payment
     Route::post('/payments',[PaymentController::class,'createPayment']);
+    Route::post('/payments/status',[PaymentController::class,'checkPaymentStatus']);
+
 
     // get my courses
     Route::get('/my-courses',[CourseController::class,'getMyCourses']);

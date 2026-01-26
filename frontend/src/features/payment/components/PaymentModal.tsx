@@ -32,16 +32,15 @@ function PaymentModal({
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-40" />
 
       {isCreatePayment && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/4">
-    <div className="bg-white rounded-lg shadow-lg p-8 w-80 flex flex-col items-center gap-4">
-      <Spinner fontSize="lg" />
-      <p className="text-gray-700 text-center font-medium">
-        កំពុងបង្កើត QR ការទូទាត់...
-      </p>
-    </div>
-  </div>
-)}
-
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/4">
+          <div className="bg-white rounded-lg shadow-lg p-8 w-80 flex flex-col items-center gap-4">
+            <Spinner fontSize="lg" />
+            <p className="text-gray-700 text-center font-medium">
+              កំពុងបង្កើត QR ការទូទាត់...
+            </p>
+          </div>
+        </div>
+      )}
 
       {!isCreatePayment && (
         <div
@@ -125,7 +124,15 @@ function PaymentModal({
              hover:bg-text-color hover:text-white
              active:scale-95"
                 >
-                  {isCheckingPayment ? <> កំពុងធ្វើការផ្ទៀងផ្ទាត់<Spinner  /> </> : "ផ្ទៀងផ្ទាត់ការទូទាត់"}
+                  {isCheckingPayment ? (
+                    <>
+                      {" "}
+                      កំពុងធ្វើការផ្ទៀងផ្ទាត់
+                      <Spinner />{" "}
+                    </>
+                  ) : (
+                    "ផ្ទៀងផ្ទាត់ការទូទាត់"
+                  )}
                 </Button>
               </div>
 

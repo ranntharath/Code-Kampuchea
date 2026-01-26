@@ -16,6 +16,13 @@ export const authApi = baseApi.injectEndpoints({
         body:body
       }),
     }),
+    veritfyOtp: builder.mutation<RegisterResponse, {email:string, otp:string}>({
+      query: (body)=>({
+        url: '/api/verify-otp',
+        method: "POST",
+        body: body
+      })
+    })
   }),
 })
-export const {useLoginMutation, useRegisterMutation} = authApi
+export const {useLoginMutation, useRegisterMutation, useVeritfyOtpMutation} = authApi

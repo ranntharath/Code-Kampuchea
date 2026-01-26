@@ -107,7 +107,7 @@ export default function CoursePage() {
               key={level}
               onClick={() => setFilterLevel(level)}
               className={`
-                px-6 py-2.5  rounded-sm text-sm font-medium transition-all
+                px-6 py-2.5  rounded-sm text-sm font-medium transition-all cursor-pointer
                 ${
                   filterLevel === level
                     ? "bg-primary-color text-white shadow-lg shadow-primary-color/30"

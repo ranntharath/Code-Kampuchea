@@ -8,6 +8,7 @@ import RegisterPage from "./pages/auth/RegisterPage";
 import LoginPage from "./pages/auth/LoginPage";
 import CourseDetail from "./pages/course/CourseDetail";
 import LearnCourse from "./pages/course/LearnCourse";
+import OtpPage from "./pages/auth/OtpPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         {/* auth routes */}
         <Route path="/register" element={<RegisterPage/>} />
         <Route path="/login" element={<LoginPage/>} />
+        <Route  path="/verify-otp" element={<OtpPage/>} />
 
         {/* user routes */}
         <Route path="/" element={<RootLayout/>}>

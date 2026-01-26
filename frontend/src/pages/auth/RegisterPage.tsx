@@ -1,11 +1,11 @@
-import RegisterForm from "@/features/auth/components/RegisterForm"
+import { SignupForm } from "@/components/signup-form"
 
-function RegisterPage() {
+export default function RegisterPage() {
   return (
-    <div>
-        <RegisterForm/>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="w-full max-w-md">
+        <SignupForm className="shadow-xl border rounded-lg p-6 bg-white" />
+      </div>
     </div>
   )
 }
-
-export default RegisterPage
