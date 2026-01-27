@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChatController;
@@ -35,6 +36,7 @@ Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
 /**
  * PUBLIC ROUTE
  */
+
 Route::get('/categories',[CategoryController::class,"index"]);
 
 //course
@@ -77,6 +79,10 @@ Route::middleware(['auth:api', 'role:admin'])->group(function() {
     Route::put('/orders/{id}',[OrderController::class, 'updataOrderStutus']);
     // payments
     Route::get('/payments',[PaymentController::class,'getAllPaymetns']);
+
+    //dashboard
+    Route::get('admin/overviews',[AdminDashboardController::class,'overview']);
+    Route::get('/admin/enrollments', [AdminDashboardController::class, 'enrollmentsByYear']);
 });
 
 /**
